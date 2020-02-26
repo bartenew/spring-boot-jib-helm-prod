@@ -13,5 +13,10 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Build Image with Maven
-      run: mvn -B compile jib:build
+    - name: Compile
+      run: mvn -B compile
+    - name: Build & Push Docker Image
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: mvn -B jib:build
