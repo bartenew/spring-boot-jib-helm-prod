@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>spring-helm-jib</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <revision>1.0</revision>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <modules>
+        <module>haiku</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.2.4.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>4.0.0</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <injectAllReactorProjects>true</injectAllReactorProjects>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
+                    </includeOnlyProperties>
+                    <commitIdGenerationMode>full</commitIdGenerationMode>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>2.2.0</version>
+                <configuration>
+                    <to>
+                        <image>bartenew/${project.artifactId}</image>
+                        <auth>
+                            <username>${env.DOCKER_USERNAME}</username>
+                            <password>${env.DOCKER_PASSWORD}</password>
+                        </auth>
+                        <tags>
+                            <tag>${project.version}-${git.commit.id.abbrev}</tag>
+                        </tags>
+                    </to>
+                </configuration>
+            </plugin>
+
+          <plugin>
+            <groupId>com.cosium.code</groupId>
+            <artifactId>git-code-format-maven-plugin</artifactId>
+            <version>2.4</version>
+            <executions>
+              <!-- On commit, format the modified java files -->
+              <execution>
+                <id>install-formatter-hook</id>
+                <goals>
+                  <goal>install-hooks</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+    </build>
+</project>
