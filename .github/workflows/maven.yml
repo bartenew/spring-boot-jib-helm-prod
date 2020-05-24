@@ -17,4 +17,4 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: mvn -B clean install
+      run: mvn -B clean compile jib:build
