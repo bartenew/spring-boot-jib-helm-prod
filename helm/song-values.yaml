@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  repository: bartenew/song-app
+  pullPolicy: IfNotPresent
+  tag: latest
+env:
+  - name: SONG
+    value: This is my song,
+      There many like it, but this one is mine,
+      It's not very long
+      But as a code example it's fine.

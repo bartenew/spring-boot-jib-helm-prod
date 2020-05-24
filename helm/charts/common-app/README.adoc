@@ -1,0 +1,18 @@
+A simple reusable chart to deploy both applications.
+Can be used when apps are homogenous like a set of Spring Boot microservices.
+
+
+This can also be combined with umbrella chart pattern
+by using alias property in umbrella chart's dependencies:
+
+```
+dependencies:
+  - name: common-app
+    version: 0.1.0
+    repository: ../common-app
+    alias: song-app # <------
+  - name: common-app
+    version: 0.1.0
+    repository: ../common-app
+    alias: haiku-app
+```

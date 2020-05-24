@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.example</groupId>
+  <groupId>me.bartenew</groupId>
   <artifactId>spring-helm-jib</artifactId>
   <version>${revision}</version>
   <packaging>pom</packaging>
 
   <properties>
-    <revision>1.0</revision>
+    <revision>1.0.0</revision>
     <java.version>11</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -18,8 +18,8 @@
   </properties>
 
   <modules>
-    <module>haiku</module>
-    <module>song</module>
+    <module>haiku-app</module>
+    <module>song-app</module>
   </modules>
 
   <dependencyManagement>
@@ -42,18 +42,16 @@
         <version>4.0.0</version>
         <executions>
           <execution>
-            <id>get-the-git-infos</id>
+            <phase>initialize</phase>
             <goals>
               <goal>revision</goal>
             </goals>
-            <phase>initialize</phase>
           </execution>
         </executions>
         <configuration>
           <injectAllReactorProjects>true</injectAllReactorProjects>
           <generateGitPropertiesFile>true</generateGitPropertiesFile>
           <includeOnlyProperties>
-            <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
             <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
           </includeOnlyProperties>
           <commitIdGenerationMode>full</commitIdGenerationMode>
@@ -67,7 +65,10 @@
           <execution>
             <phase>package</phase>
             <goals>
+              <!-- Build images locally -->
               <goal>dockerBuild</goal>
+              <!-- Replace with this to push image to the registry -->
+              <!--<goal>build</goal>-->
             </goals>
           </execution>
         </executions>
@@ -83,21 +84,6 @@
             </tags>
           </to>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>com.cosium.code</groupId>
-        <artifactId>git-code-format-maven-plugin</artifactId>
-        <version>2.4</version>
-        <executions>
-          <!-- On commit, format the modified java files -->
-          <execution>
-            <id>install-formatter-hook</id>
-            <goals>
-              <goal>install-hooks</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 
     </plugins>

@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: bartenew/haiku-app
+  pullPolicy: IfNotPresent
+  tag: latest
+
+env:
+  - name: HAIKUS
+    value: "First autumn morning
+    the mirror I stare into
+    shows my fathers face.
+    ---
+    Your haiku is bad.
+    You are not a true poet.
+    Please stop today.
+    ---
+    Aura of angels
+    Venus sews seeds of sunrise
+    Old as yesterday
+    ---
+    Top of the mountain
+    At the valley the clouds float
+    By a calm river
+    ---
+    Emu bush flowers
+    Cat watches attentively
+    For a hummingbird"
