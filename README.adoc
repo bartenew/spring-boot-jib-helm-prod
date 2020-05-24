@@ -19,3 +19,7 @@ the chart like show in `helm/haiku-values.yaml`
 
 Run `install-haiku.sh` to install a Helm release with Haiku App pod.
 Follow instructions from Helm output to access your app in the browser.
+
+CI
+^^
+This repository is using GitHub Actions with Maven. Checkout .github/workflows/maven.yml
