@@ -1,16 +1,20 @@
-Example of Spring Boot multi module project with Jib and Helm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+Maven/Gradle example of Spring Boot multi module project with
+Jib plugin and Helm. Demonstrates CI build of docker images
+and how they can be deployed to k8s using Helm.
 
 Building Images
-^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~
 
-`./mvnw package` will build an image for each child module with tag 1.0.0-${COMMIT-SHA}
+*Maven*
 
-Change `<goal>dockerBuild</goal>` to `<goal>build</goal>` to push images to your registry.
+`./mvnw compile jib:build` will build an image for each child module with tag 1.0.0-${COMMIT-SHA}
+
+*Gradle*
+
+`./gradlew jib` will build an image for each child module with tag 1.0.0-${COMMIT-SHA}
 
 Deploying Apps with Helm
-^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 This project is using a single common chart for both apps. You can deploy each app by just overriding values inside
 the chart like show in `helm/haiku-values.yaml`
